@@ -4,17 +4,10 @@ on: [workflow_dispatch]
 
 jobs:
   call-generate:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Call generate-output workflow
-        uses: kbakdev/reusable-workflows/.github/workflows/generate-output.yaml@main
-        id: generate
+    uses: kbakdev/reusable-workflows/.github/workflows/generate-output.yaml@main
 
   call-use:
-    runs-on: ubuntu-latest
     needs: call-generate
-    steps:
-      - name: Call use-output workflow
-        uses: kbakdev/reusable-workflows/.github/workflows/use-output.yaml@main
-        with:
-          input: ${{ needs.call-generate.outputs.output }}
+    uses: kbakdev/reusable-workflows/.github/workflows/use-output.yaml@main
+    with:
+      input: ${{ needs.call-generate.outputs.output }}
